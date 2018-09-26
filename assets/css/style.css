@@ -1,0 +1,28 @@
+.timer {
+    height: 50px;
+    width: 200px;
+    background-color: blue;
+    padding: 3px 0px;
+    margin: 20px
+}
+
+.time-passed {
+    height: 100%;
+    width: 2px;
+    background-color: red;
+}
+
+.question-area {
+    padding: 10px;
+    font-size: 16px;
+}
+
+.answer-area {
+    padding: 5px;
+    font-size: 16px;
+}
+
+.answer {
+    padding: 5px;
+    
+}
