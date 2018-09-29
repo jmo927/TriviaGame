@@ -40,9 +40,13 @@ header {
 }
 
 .question-area {
-    padding: 30px auto;
+    padding: 0px auto;
     font-size: 25px;
     text-align: center;
+    margin: 10px;
+    background-color: rgba(255, 255, 255, 0.5);
+    max-width: 400px;
+    margin: 10px auto;
 }
 
 .answer-area {
@@ -61,6 +65,14 @@ header {
 
 .answer {
     padding: 5px;    
+}
+
+.answer:hover, .next-game:hover {
+    cursor: pointer;
+}
+
+.play-game:hover {
+    cursor: pointer;
 }
 
 .results {

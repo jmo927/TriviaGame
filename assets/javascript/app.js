@@ -26,6 +26,48 @@ var questionStore = [
         q: "Dobby's first and last words were 'Harry Potter!'",
         a: ["True", "False"],
         correct: 0
+    },
+
+    {
+        q: "Who is Ripper?",
+        a: ["A rouge house-elf", "Harry's pet snake", "Hagrid's crossbow", "Aunt Marge's Bulldog"],
+        correct: 3
+    },
+
+    {
+        q: "How much does a Firebolt cost?",
+        a: ["500 galleons", "Inquire within", "How much you got?", "Your first born child"],
+        correct: 1
+    },
+
+    {
+        q: "What shape is Professor Snape's nose?",
+        a: ["Hooked", "Bulbous", "Petite", "Extra-Long"],
+        correct: 0
+    },
+
+    {
+        q: "Who of the following is a registered Animagus?",
+        a: ["Rita Skeeter", "Sirius Black", "Minervra McGonagal", "Neville Longbottom"],
+        correct: 2
+    },
+
+    {
+        q: "How many Christmas Trees does Hagrid put in the Great Hall every year?",
+        a: ["13", "7", "3", "4"],
+        correct: 0
+    }, 
+
+    {
+        q: "Ron's favorite quidditch team is...",
+        a: ["Holyhead Harpies", "Tutshil Tornadoes", "Wimbourne Wasps", "Chudley Cannons"],
+        correct: 3
+    }, 
+
+    {
+        q: "Ginny Weasley marries her celebrity crush.",
+        a: ["True", "False"],
+        correct: 0
     }
 ]
 
@@ -144,8 +186,10 @@ function gameReset() {
         questions.push(questionStore[i]); }
     wrongAnswers = 0;
     correctAnswers = 0;
+    $(".timer").show();
     nextQuestion();
     
 }
 
+$(".timer").hide();
 $(".play-game").on("click", gameReset)
