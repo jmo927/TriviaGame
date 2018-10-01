@@ -173,7 +173,7 @@ function nextQuestion() {
         nextGame.addClass("next-game");
         var nextText = $("<h2>");
         nextText.addClass("next-text");
-        nextText.text("Play again?");
+        nextText.text("Click to Play Again");
         nextGame.append(nextText);
         $(".question-area").append(nextGame);
         $(".next-game").on("click", gameReset)
@@ -192,4 +192,4 @@ function gameReset() {
 }
 
 $(".timer").hide();
-$(".play-game").on("click", gameReset)
+$(".play-game").on("click", gameReset);

@@ -13,15 +13,23 @@ header {
     letter-spacing: 1px;
     margin: 10px 25px 5px 0px;
     color: white;
+    font-family: Raleway, sans-serif;
 }
 
 #phone-home {
     font-size: 20px;
     color: white;
+    font-family: 'Shadows Into Light', cursive;
+    
 }
 
-#phone-home a:visited, hover, active {
+#phone-home a, a:visited, active {
     color: white;
+    text-decoration: none;
+}
+
+#phone-home a:hover {
+    color: yellow;
 }
 
 .timer {
@@ -47,11 +55,11 @@ header {
     background-color: rgba(255, 255, 255, 0.5);
     max-width: 400px;
     margin: 10px auto;
+    font-family: Raleway, sans-serif;
 }
 
 .answer-area {
     padding: 5px auto;
-    font-size: 16px;
     display: table;
     margin-left: auto;
     margin-right: auto;
@@ -61,10 +69,12 @@ header {
     padding: 0px;
     text-align: left;
     background-color: rgba(255, 255, 255, 0.5);
+    font-size: 18px;
 }
 
 .answer {
-    padding: 5px;    
+    padding: 10px;   
+    font-family: Raleway, sans-serif; 
 }
 
 .answer:hover, .next-game:hover {
