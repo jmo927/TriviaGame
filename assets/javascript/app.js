@@ -54,7 +54,7 @@ var questionStore = [
 
     {
         q: "How many Christmas Trees does Hagrid put in the Great Hall every year?",
-        a: ["13", "7", "3", "4"],
+        a: ["12", "7", "3", "4"],
         correct: 0
     }, 
 
