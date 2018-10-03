@@ -8,7 +8,10 @@ var timePassed = 0;
 var whichQ;
 var correctRef;
 
+var hasAnswered = false;
+
 var questions = [];
+var skippedQuestions = [];
 var questionStore = [
     {
         q: "Harry's Scar was what shape?",
@@ -56,13 +59,13 @@ var questionStore = [
         q: "How many Christmas Trees does Hagrid put in the Great Hall every year?",
         a: ["13", "7", "3", "4"],
         correct: 0
-    }, 
+    },
 
     {
         q: "Ron's favorite quidditch team is...",
         a: ["Holyhead Harpies", "Tutshil Tornadoes", "Wimbourne Wasps", "Chudley Cannons"],
         correct: 3
-    }, 
+    },
 
     {
         q: "Ginny Weasley marries her celebrity crush.",
@@ -87,7 +90,13 @@ function pauseTime() {
         timePassed = 0;
         clearInterval(intervalId);
         // $(".results").empty();
-        nextQuestion();
+        if (questions.length > 0) {
+            nextQuestion(questions);
+        } else if (skippedQuestions.length > 0) {
+            nextQuestion(skippedQuestions);
+        } else {
+            checkWin();
+        }
     }
 }
 
@@ -95,11 +104,6 @@ function message(message) {
     $(".question-area").empty();
     $(".results").empty();
     intervalId = setInterval(pauseTime, 1000);
-
-    for (var i = 0; i < questions[whichQ].a.length; i++) {
-        $(".answer-"+i).css("color", "#f00");
-    }
-    $(".answer-"+correctRef).css("color", "#23DD2C")
 
     if (message === "correct") {
         $(".question-area").text("Correct");
@@ -114,82 +118,128 @@ function message(message) {
 
     $(".results").text("Correct: " + correctAnswers);
     $(".results").append("<p>Wrong: " + wrongAnswers + "</p>");
-    
-    questions.splice(whichQ, 1);
+
+    if (questions.length > 0) {
+        questions.splice(whichQ, 1);
+    } else {
+        skippedQuestions.splice(whichQ, 1);
+    }
 }
 
-function nextQuestion() {
+function nextQuestion(remaining) {
     $(".question-area").empty();
     $(".answer-table").empty();
-    if (questions.length > 0) {
+    hasAnswered = false;
+    if (remaining.length > 0) {
         intervalId = setInterval(qTime, 50); //Is this 50? Cause it should be for 10 sec timer
 
         //random question
-        whichQ = Math.floor(Math.random() * questions.length);
-        correctRef = questions[whichQ].correct;
+        whichQ = Math.floor(Math.random() * remaining.length);
+        correctRef = remaining[whichQ].correct;
 
         var questionQuestion = $("<p>");
         questionQuestion.addClass("question-question");
-        questionQuestion.append(questions[whichQ].q);
+        questionQuestion.append(remaining[whichQ].q);
         $(".question-area").append(questionQuestion);
 
-        for (var i = 0; i < questions[whichQ].a.length; i++) { //answer populate
+        for (var i = 0; i < remaining[whichQ].a.length; i++) { //answer populate
             var idvAnswer = $("<li>");
             idvAnswer.attr("value", i);
-            idvAnswer.addClass("answer answer-"+i);
-            idvAnswer.append(questions[whichQ].a[i]);
+            idvAnswer.addClass("answer answer-" + i);
+            idvAnswer.append(remaining[whichQ].a[i]);
             $(".answer-table").append(idvAnswer);
         } //end answers, and questions
 
-        
-
-        $(".answer").on("click", function () { //onClicks
-            clearInterval(intervalId);
-            timePassed = 0;
-            var answerRef = $(this).attr("value");
-            $(this).css("list-style-type", "disc");
-
-            for (var i = 0; i < questions[whichQ].a.length; i++) {
-                $(".answer-"+i).css("color", "#f00");
-            }
-            $(".answer-"+correctRef).css("color", "#23DD2C")
-
-            if (correctRef == answerRef) {
-                message("correct");
-            } else {
-                message("wrong");
-            }
-        }); //end On.Click
-    } //end if
-    else {
-        if (bestScore < correctAnswers) {
-            bestScore = correctAnswers;
-            $(".results").text("You got a new high score of " + bestScore + "!");
+        if (questions.length > 0) {
+            var skipButton = $("<li>");
+            skipButton.addClass("skip-bo");
+            skipButton.text("Skip");
+            $(".answer-table").append(skipButton);
         } else {
-            $(".results").text("No more questions.  You got " + correctAnswers + " correct.  Study up if you want to beat the high score of " + bestScore + ".");
+            var toldYaSo = $("<p>");
+            toldYaSo.addClass("neener");
+            toldYaSo.text("Told ya this would come back.");
+            $(".answer-table").append(toldYaSo);
         }
-
-        var nextGame = $("<div>");
-        nextGame.addClass("next-game");
-        var nextText = $("<h2>");
-        nextText.addClass("next-text");
-        nextText.text("Click to Play Again");
-        nextGame.append(nextText);
-        $(".question-area").append(nextGame);
-        $(".next-game").on("click", gameReset)
     }
 }
 
 function gameReset() {
-    $(".results").empty()
+    $(".results").empty();
+    questions = [];
+    skippedQuestions = [];
     for (var i = 0; i < questionStore.length; i++) {
-        questions.push(questionStore[i]); }
+        questions.push(questionStore[i]);
+    }
     wrongAnswers = 0;
     correctAnswers = 0;
+
     $(".timer").show();
-    nextQuestion();
-    
+    nextQuestion(questions);
 }
+
+function checkWin() {
+    if (bestScore < correctAnswers) {
+        bestScore = correctAnswers;
+        $(".results").text("You got a new high score of " + bestScore + "!");
+    } else {
+        $(".results").text("No more questions.  You got " + correctAnswers + " correct.  Study up if you want to beat the high score of " + bestScore + ".");
+    }
+    $(".question-area").empty();
+    $(".answer-table").empty();
+    var nextGame = $("<div>");
+    nextGame.addClass("next-game");
+    var nextText = $("<h2>");
+    nextText.addClass("next-text");
+    nextText.text("Click to Play Again");
+    nextGame.append(nextText);
+    $(".question-area").append(nextGame);
+    $(".next-game").on("click", gameReset);
+}
+
+$(document).on("click", ".answer", function () { // answer onClicks
+    if (hasAnswered === false) {
+        clearInterval(intervalId);
+        timePassed = 0;
+        var answerRef = $(this).attr("value");
+        $(this).css("list-style-type", "disc");
+
+        if (questions.length > 0) {
+            for (var i = 0; i < questions[whichQ].a.length; i++) {
+                $(".answer-" + i).css("color", "#f00");
+            }
+            $(".answer-" + correctRef).css("color", "#23DD2C")
+        } else {
+            for (var i = 0; i < skippedQuestions[whichQ].a.length; i++) {
+                $(".answer-" + i).css("color", "#f00");
+            }
+            $(".answer-" + correctRef).css("color", "#23DD2C")
+        }
+
+        if (correctRef == answerRef) {
+            message("correct");
+        } else {
+            message("wrong");
+        }
+        hasAnswered = true;
+    }//end if
+}); //end On.Click
+
+$(document).on("click", ".skip-bo", function () {
+    if (hasAnswered === false) {
+        clearInterval(intervalId);
+        timePassed = 0;
+        intervalId = setInterval(pauseTime, 1000);
+        $(".question-area").empty();
+        $(".answer-table").empty();
+        $(".question-area").text("Lame.  This will come back to haunt you.");
+
+        skippedQuestions.push(questions[whichQ]);
+        questions.splice(whichQ, 1);
+
+        hasAnswered = true;
+    }
+});
 
 $(".timer").hide();
 $(".play-game").on("click", gameReset);
