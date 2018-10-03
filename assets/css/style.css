@@ -69,15 +69,23 @@ header {
     padding: 0px;
     text-align: left;
     background-color: rgba(255, 255, 255, 0.5);
+}
+
+.answer, .skip-bo {
+    padding: 10px;   
+    font-family: Raleway, sans-serif; 
     font-size: 18px;
 }
 
-.answer {
-    padding: 10px;   
-    font-family: Raleway, sans-serif; 
+.skip-bo {
+    border-top: solid black 2px;
+}
+.neener {
+    padding: 10px;
+    font-family: 'Shadows Into Light', cursive;
 }
 
-.answer:hover, .next-game:hover {
+.answer:hover, .next-game:hover, .skip-bo:hover {
     cursor: pointer;
 }
 
