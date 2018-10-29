@@ -10,6 +10,6 @@ Made with JavaScript (jQuery), CSS, and HTML.
 
 ## Version
 
-2.0 - Added 'skip' feature, which was more complicated than I initially imagined.
-1.1 - Got the styles right.  Added some questions.  Got the rest working
-1.0 - Initial Upload.  Got most of the functionality right.
+- 2.0 - Added 'skip' feature, which was more complicated than I initially imagined.
+- 1.1 - Got the styles right.  Added some questions.  Got the rest working
+- 1.0 - Initial Upload.  Got most of the functionality right.
